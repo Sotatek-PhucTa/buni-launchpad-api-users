@@ -14,7 +14,7 @@ export class AddressMustHaveTheRightFormatException extends BaseException {
 }
 
 export class InvalidSignatureException extends BaseException {
-  constructor() {
-    super(`Invalid signature`, HttpStatus.BAD_REQUEST);
+  constructor(msg: string) {
+    super(msg, HttpStatus.BAD_REQUEST);
   }
 }

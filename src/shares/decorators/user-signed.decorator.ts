@@ -6,15 +6,17 @@ import { InvalidSignatureException } from '../exceptions/users.exceptions';
 export class UserSigned implements CanActivate {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    console.log(`User Signed`);
     const message = request.headers.msgsignature;
     const signature = request.body.signature;
 
     const walletAddress = convertToChecksumAddress(request.body.wallet_address, true);
-    const signedAddress = recoverAddress(message, signature);
-    if (walletAddress !== signedAddress) {
-      throw new InvalidSignatureException();
+    let signedAddress;
+    try {
+      signedAddress = recoverAddress(message, signature);
+    } catch (e) {
+      throw new InvalidSignatureException(`Invalid signature`);
     }
+    if (walletAddress !== signedAddress) throw new InvalidSignatureException(`Invalid user signed`);
     return true;
   }
 }

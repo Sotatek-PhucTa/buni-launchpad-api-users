@@ -1,5 +1,6 @@
 import * as Web3Utils from 'web3-utils';
-import Web3 from 'web3';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Web3 = require('web3');
 
 import { valueNullOrUndefined } from './utils';
 import { AddressMustHaveTheRightFormatException, AddressMustNotBeEmptyException } from '../exceptions/users.exceptions';
