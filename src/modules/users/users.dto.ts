@@ -1,5 +1,7 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
+import { convertToChecksumAddress } from '../../shares/utils/convert.util';
 
 @Exclude()
 export class UserLoginRequestDto {
@@ -9,6 +11,7 @@ export class UserLoginRequestDto {
     name: 'wallet_address',
     required: true,
   })
+  @Transform(({ value }) => convertToChecksumAddress(value, true))
   wallet_address: string;
 
   @Expose()
@@ -17,5 +20,6 @@ export class UserLoginRequestDto {
     name: 'signature',
     required: true,
   })
+  @IsNotEmpty()
   signature: string;
 }

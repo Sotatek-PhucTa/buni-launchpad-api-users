@@ -9,5 +9,6 @@ export class UsersController {
   async login(@Body() userLoginRequestDto: UserLoginRequestDto) {
     console.log(`User login`);
     console.log(userLoginRequestDto.wallet_address);
+    return userLoginRequestDto.wallet_address;
   }
 }
