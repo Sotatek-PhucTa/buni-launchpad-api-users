@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserLoginRequestDto } from './users.dto';
+import { UserSigned } from '../../shares/decorators/user-signed.decorator';
 
 @ApiTags('users')
+@UseGuards(UserSigned)
 @Controller('user')
 export class UsersController {
   @Post('login')
