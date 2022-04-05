@@ -7,8 +7,14 @@ export class AddressMustNotBeEmptyException extends BaseException {
   }
 }
 
-export class AddressMustHaveTheRightFormat extends BaseException {
+export class AddressMustHaveTheRightFormatException extends BaseException {
   constructor(address: string) {
     super(`Address ${address} is not in the right format`, HttpStatus.BAD_REQUEST);
+  }
+}
+
+export class InvalidSignatureException extends BaseException {
+  constructor() {
+    super(`Invalid signature`, HttpStatus.BAD_REQUEST);
   }
 }
