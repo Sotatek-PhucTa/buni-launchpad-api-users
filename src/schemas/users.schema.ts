@@ -45,7 +45,7 @@ export class Users {
   @Prop({
     type: String,
   })
-  nationalIdIssuingCountry: string;
+  nationalIssuingCountry: string;
 
   @Prop({
     type: String,
