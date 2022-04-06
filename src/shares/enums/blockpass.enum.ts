@@ -1,0 +1,7 @@
+export enum KYC_STATUS {
+  INCOMPLETE,
+  APPROVED,
+  RESUBMIT,
+  WAITING,
+  INREVIEW,
+}

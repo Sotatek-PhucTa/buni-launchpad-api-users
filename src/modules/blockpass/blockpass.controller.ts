@@ -1,4 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { BlockPassAuth } from '../../shares/decorators/blockpass-auth.decorator';
 
-@Controller('blockpass')
+@ApiTags('block-pass')
+@UseGuards(BlockPassAuth)
+@Controller('block-pass')
 export class BlockPassController {}
