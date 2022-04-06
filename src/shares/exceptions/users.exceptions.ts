@@ -18,3 +18,9 @@ export class InvalidSignatureException extends BaseException {
     super(msg, HttpStatus.BAD_REQUEST);
   }
 }
+
+export class JwtTokenInvalidException extends BaseException {
+  constructor() {
+    super(`Jwt token invalid`, HttpStatus.UNAUTHORIZED);
+  }
+}
