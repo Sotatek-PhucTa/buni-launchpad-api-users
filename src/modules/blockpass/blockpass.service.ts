@@ -8,20 +8,24 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { BlockPass, BlockPassDocument } from '../../schemas/blockpass.schema';
 import { Model } from 'mongoose';
-import { KYC_STATUS } from '../../shares/enums/blockpass.enum';
 import { valueNullOrUndefined } from '../../shares/utils/utils';
+import { UsersService } from '../users/users.service';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
 @Injectable()
 export class BlockPassService {
-  constructor(@InjectModel(BlockPass.name) private readonly blockPassModel: Model<BlockPassDocument>) {}
-  async kycUpdateStatus(blockPassUpdateStatusRequestDto: BlockPassUpdateStatusRequestDto) {
+  constructor(
+    @InjectModel(BlockPass.name) private readonly blockPassModel: Model<BlockPassDocument>,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async kycUpdateStatus(param: BlockPassUpdateStatusRequestDto) {
     console.log(`BlockPass Update`);
-    console.log(blockPassUpdateStatusRequestDto);
+    console.log(param);
     const url = process.env.BLOCK_PASS_API_URL.replace('CLIENT_ID', process.env.BLOCK_PASS_CLIENT_ID).replace(
       'RECORDID',
-      blockPassUpdateStatusRequestDto.recordId,
+      param.recordId,
     );
     const response = await fetch(url, {
       method: 'GET',
@@ -30,8 +34,8 @@ export class BlockPassService {
       },
     });
     if (!response || response.status !== 200) {
-      console.log(`Failed when call blockpass api with record ${blockPassUpdateStatusRequestDto.recordId}`);
-      return new BlockPassApiFailedException(blockPassUpdateStatusRequestDto.recordId);
+      console.log(`Failed when call blockpass api with record ${param.recordId}`);
+      return new BlockPassApiFailedException(param.recordId);
     }
 
     const responseBody = JSON.parse(response.body).data;
@@ -40,14 +44,14 @@ export class BlockPassService {
     const kycStatus = responseBody.status;
 
     const addressCountry = JSON.parse(responseBody.identities.address?.value)?.country || '';
-    const passportIssuingCountry =
+    const nationalIssuingCountry =
       responseBody.identities.passport_issuing_country?.value ||
       responseBody.identities.national_id_issuing_country?.value ||
       responseBody.identities.driving_license_issuing_country?.value ||
       addressCountry;
 
     await this.blockPassModel.create({
-      ...blockPassUpdateStatusRequestDto,
+      ...param,
       email: email,
       walletAddress: wallet,
     });
@@ -55,17 +59,27 @@ export class BlockPassService {
     if (kycStatus.toString() === 'approved') {
       await this.blockPassModel.findOneAndUpdate(
         {
-          recordId: blockPassUpdateStatusRequestDto.recordId,
+          recordId: param.recordId,
         },
-        { ...blockPassUpdateStatusRequestDto, email: email, walletAddress: wallet },
+        { ...param, email: email, walletAddress: wallet },
         { upsert: true },
       );
     }
 
     if (valueNullOrUndefined(email))
-      throw new BlockPassResponseDoesNotHaveRequiredValueException(blockPassUpdateStatusRequestDto.recordId, 'email');
+      throw new BlockPassResponseDoesNotHaveRequiredValueException(param.recordId, 'email');
 
     if (valueNullOrUndefined(wallet))
-      throw new BlockPassResponseDoesNotHaveRequiredValueException(blockPassUpdateStatusRequestDto.recordId, 'wallet');
+      throw new BlockPassResponseDoesNotHaveRequiredValueException(param.recordId, 'wallet');
+
+    await this.usersService.updateKycStatusOfUser({
+      recordId: param.recordId,
+      refId: param.recordId,
+      kycStatus,
+      email,
+      wallet,
+      nationalIssuingCountry,
+      addressCountry,
+    });
   }
 }
