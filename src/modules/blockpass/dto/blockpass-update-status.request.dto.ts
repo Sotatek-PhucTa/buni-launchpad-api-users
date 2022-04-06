@@ -25,6 +25,12 @@ export class BlockPassUpdateStatusRequestDto {
   @ApiProperty({
     type: String,
   })
+  event: string;
+
+  @Expose()
+  @ApiProperty({
+    type: String,
+  })
   recordId: string;
 
   @Expose()
