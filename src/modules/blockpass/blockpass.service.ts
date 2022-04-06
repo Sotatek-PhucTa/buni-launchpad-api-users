@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { BlockPassUpdateStatusRequestDto } from './dto/blockpass-update-status.request.dto';
 import fetch from 'node-fetch';
-import { BlockPassApiFailedException } from '../../shares/exceptions/blockpass.exception';
+import {
+  BlockPassApiFailedException,
+  BlockPassResponseDoesNotHaveRequiredValueException,
+} from '../../shares/exceptions/blockpass.exception';
 import { InjectModel } from '@nestjs/mongoose';
 import { BlockPass, BlockPassDocument } from '../../schemas/blockpass.schema';
 import { Model } from 'mongoose';
 import { KYC_STATUS } from '../../shares/enums/blockpass.enum';
+import { valueNullOrUndefined } from '../../shares/utils/utils';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -57,5 +61,11 @@ export class BlockPassService {
         { upsert: true },
       );
     }
+
+    if (valueNullOrUndefined(email))
+      throw new BlockPassResponseDoesNotHaveRequiredValueException(blockPassUpdateStatusRequestDto.recordId, 'email');
+
+    if (valueNullOrUndefined(wallet))
+      throw new BlockPassResponseDoesNotHaveRequiredValueException(blockPassUpdateStatusRequestDto.recordId, 'wallet');
   }
 }
