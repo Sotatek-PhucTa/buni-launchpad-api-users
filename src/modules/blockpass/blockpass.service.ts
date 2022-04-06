@@ -5,6 +5,7 @@ import { BlockPassApiFailedException } from '../../shares/exceptions/blockpass.e
 import { InjectModel } from '@nestjs/mongoose';
 import { BlockPass, BlockPassDocument } from '../../schemas/blockpass.schema';
 import { Model } from 'mongoose';
+import { KYC_STATUS } from '../../shares/enums/blockpass.enum';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -46,5 +47,15 @@ export class BlockPassService {
       email: email,
       walletAddress: wallet,
     });
+
+    if (kycStatus.toString() === 'approved') {
+      await this.blockPassModel.findOneAndUpdate(
+        {
+          recordId: blockPassUpdateStatusRequestDto.recordId,
+        },
+        { ...blockPassUpdateStatusRequestDto, email: email, walletAddress: wallet },
+        { upsert: true },
+      );
+    }
   }
 }
