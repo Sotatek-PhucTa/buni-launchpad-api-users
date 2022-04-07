@@ -30,3 +30,9 @@ export class VerifyEtherSignatureInvalidException extends BaseException {
     super('Verify ether signature invalid', HttpStatus.UNAUTHORIZED);
   }
 }
+
+export class UserNotFoundException extends BaseException {
+  constructor(userAddress: string) {
+    super(`Not found user ${userAddress}`, HttpStatus.BAD_REQUEST);
+  }
+}

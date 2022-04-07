@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { BlockPassUpdateStatusRequestDto } from './dto/blockpass-update-status.request.dto';
 import fetch from 'node-fetch';
 import {
@@ -17,6 +17,7 @@ require('dotenv').config();
 export class BlockPassService {
   constructor(
     @InjectModel(BlockPass.name) private readonly blockPassModel: Model<BlockPassDocument>,
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
   ) {}
 
