@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users, UsersDocument } from '../../schemas/users.schema';
 import { Model } from 'mongoose';
-import { UsersStatus } from '../../shares/enums/users.enum';
 import { KYC_STATUS } from '../../shares/enums/blockpass.enum';
 
 @Injectable()
