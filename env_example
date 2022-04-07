@@ -1,0 +1,8 @@
+MONGODB_URI=mongodb://localhost:27017/dev-buni-launchpad-users?replicaSet=smm
+
+BLOCK_PASS_API_URL=
+BLOCK_PASS_API_KEY=
+BLOCK_PASS_CLIENT_ID=
+BLOCK_PASS_SECRET_KEY=
+
+APP_ENV=dev
