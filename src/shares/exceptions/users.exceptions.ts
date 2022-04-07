@@ -24,3 +24,9 @@ export class JwtTokenInvalidException extends BaseException {
     super(`Jwt token invalid`, HttpStatus.UNAUTHORIZED);
   }
 }
+
+export class VerifyEtherSignatureInvalidException extends BaseException {
+  constructor() {
+    super('Verify ether signature invalid', HttpStatus.UNAUTHORIZED);
+  }
+}
