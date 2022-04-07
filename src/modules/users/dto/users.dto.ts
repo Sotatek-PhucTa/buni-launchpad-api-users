@@ -1,6 +1,6 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { convertToChecksumAddress } from '../../shares/utils/web3.util';
+import { convertToChecksumAddress } from '../../../shares/utils/web3.util';
 
 @Exclude()
 export class UserLoginRequestDto {
