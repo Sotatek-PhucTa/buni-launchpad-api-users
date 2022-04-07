@@ -82,4 +82,13 @@ export class BlockPassService {
       addressCountry,
     });
   }
+
+  async getLatestBlockPassInfoOfUser(userAddress: string, recordId: string): Promise<BlockPassDocument> {
+    const listInfos = await this.blockPassModel
+      .find({ walletAddress: userAddress, recordId })
+      .sort({ createdAt: -1 })
+      .limit(1);
+    if (listInfos.length > 0) return listInfos[0];
+    return null;
+  }
 }
