@@ -8,7 +8,6 @@ import { UserProfileResponseDto } from './dto/user-profile.response.dto';
 import { plainToClass } from 'class-transformer';
 
 @ApiTags('users')
-@UseGuards(UserSigned)
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
