@@ -45,10 +45,11 @@ export class UsersService {
     );
   }
 
-  async getProfile(userAddress: string) {
+  async getProfile(userAddress: string): Promise<UsersDocument & { blockPassStatus: string }> {
     const user = await this.findAnUser(userAddress);
     if (valueNullOrUndefined(user)) throw new UserNotFoundException(userAddress);
     const blockPass = await this.blockPassService.getLatestBlockPassInfoOfUser(userAddress, user.recordId);
     if (valueNullOrUndefined(blockPass)) throw new UserNotFoundException(userAddress);
+    return { ...user, blockPassStatus: blockPass.status };
   }
 }
