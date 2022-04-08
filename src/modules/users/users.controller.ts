@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserLoginRequestDto } from './dto/users.dto';
-import { UserSigned } from '../../shares/decorators/user-signed.decorator';
 import { UserAddress } from '../../shares/decorators/users.decorator';
 import { UsersService } from './users.service';
 import { UserProfileResponseDto } from './dto/user-profile.response.dto';

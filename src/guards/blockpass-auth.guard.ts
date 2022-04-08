@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { createHmac } from 'crypto';
-import { InvalidSignatureException } from '../exceptions/users.exceptions';
+import { InvalidSignatureException } from '../shares/exceptions/users.exceptions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();

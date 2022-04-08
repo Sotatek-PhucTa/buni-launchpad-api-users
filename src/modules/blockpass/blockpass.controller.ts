@@ -1,6 +1,6 @@
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BlockPassAuth } from '../../shares/decorators/blockpass-auth.decorator';
+import { BlockPassAuth } from '../../guards/blockpass-auth.guard';
 import { BlockPassUpdateStatusRequestDto } from './dto/blockpass-update-status.request.dto';
 import { BlockPassService } from './blockpass.service';
 

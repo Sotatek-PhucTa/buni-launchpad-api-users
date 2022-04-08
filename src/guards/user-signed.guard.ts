@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { convertToChecksumAddress, recoverAddress } from '../utils/web3.util';
-import { InvalidSignatureException } from '../exceptions/users.exceptions';
+import { convertToChecksumAddress, recoverAddress } from '../shares/utils/web3.util';
+import { InvalidSignatureException } from '../shares/exceptions/users.exceptions';
 
 @Injectable()
 export class UserSigned implements CanActivate {
